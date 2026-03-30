@@ -157,7 +157,9 @@ Implement an interactive prototype to learn how the product will look like and f
 > Use `Build` in `Google AI Studio`.
 
 > [!IMPORTANT]
-> It's OK to throw the prototype away and design a new and better solution where you account for everything you learned.
+> The prototype shouldn't necessarily use the technologies that will be used in the MVP. For example, you can prototype everything in `TypeScript` but use a real database and `Python` in the MVP.
+>
+> It's OK to throw the prototype away and design a better solution where you account for everything you learned.
 
 #### Minimal valuable product
 
