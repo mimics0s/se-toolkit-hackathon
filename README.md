@@ -7,7 +7,7 @@ To get the full point for the lab, you need to:
 - Finish Task 4 and 5 by the usual deadline of Thursday 23:59.
 
 Each student builds their own project:
-- Go from idea to a deployed product.
+- Go from an idea to a deployed product.
 - Use agents and LLMs throughout.
 
 ----
@@ -32,7 +32,7 @@ The project idea must be:
 
 Define and show to your TA:
 - End-user of the product
-- Which problem your product solves for the end users / what is its core feature?
+- Which problem your product solves for the end-user / what is its core feature?
 - The product idea in one short sentence
 
 ### Implementation plan
@@ -49,10 +49,10 @@ Version 2 builds upon Version 1:
 - address TA feedback from the lab;
 - deploy and make it available to use.
 
-> 🟪 **Notes**
-> 1. The product must have these components each fulfilling a useful function: end-user-facing LLM agent (e.g. `nanobot`), Frontend, Backend, Database.
-> 2. You are free to use the setup from Lab 8 as the base to iterate from.
-> 3. `Telegram` bots deployed on a university VM can fail to receive messages when hosted there.
+Important to note:
+- The product must have these components each fulfilling a useful function: Backend, Database, and User-facing Client (web, mobile or LLM-powered agent, e.g. `nanobot`).
+- You can use the setup from Lab 8 or start from scratch.
+- `Telegram` bots are being blocked on university VMs.
 
 ## Task 3 (approved by TA during the lab).
 
