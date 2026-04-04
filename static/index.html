@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ExcuseForge — One-Click Technical Excuses</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 2rem;
+            color: #e0e0e0;
+        }
+
+        .container {
+            max-width: 800px;
+            width: 100%;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            background: linear-gradient(90deg, #e94560, #ff6b6b);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 0.5rem;
+        }
+
+        .tagline {
+            color: #8892b0;
+            font-size: 1.1rem;
+        }
+
+        .generator-card {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 16px;
+            padding: 2rem;
+            backdrop-filter: blur(10px);
+            margin-bottom: 2rem;
+        }
+
+        .controls {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+            flex-wrap: wrap;
+        }
+
+        .lab-select {
+            padding: 0.75rem 1rem;
+            border-radius: 8px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            background: rgba(0, 0, 0, 0.3);
+            color: #e0e0e0;
+            font-size: 1rem;
+            min-width: 150px;
+        }
+
+        .generate-btn {
+            flex: 1;
+            padding: 1rem 2rem;
+            font-size: 1.2rem;
+            font-weight: 600;
+            border: none;
+            border-radius: 8px;
+            background: linear-gradient(135deg, #e94560, #ff6b6b);
+            color: white;
+            cursor: pointer;
+            transition: transform 0.1s, box-shadow 0.2s;
+            min-width: 200px;
+        }
+
+        .generate-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 20px rgba(233, 69, 96, 0.4);
+        }
+
+        .generate-btn:active {
+            transform: translateY(0);
+        }
+
+        .generate-btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .excuse-display {
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 12px;
+            padding: 1.5rem;
+            min-height: 120px;
+            position: relative;
+        }
+
+        .excuse-text {
+            font-size: 1.1rem;
+            line-height: 1.6;
+            color: #ccd6f6;
+            margin-bottom: 1rem;
+        }
+
+        .excuse-placeholder {
+            color: #5a6a8a;
+            font-style: italic;
+        }
+
+        .excuse-actions {
+            display: flex;
+            gap: 0.75rem;
+        }
+
+        .action-btn {
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            background: rgba(255, 255, 255, 0.05);
+            color: #e0e0e0;
+            cursor: pointer;
+            font-size: 0.9rem;
+            transition: background 0.2s;
+        }
+
+        .action-btn:hover {
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .action-btn.copied {
+            background: rgba(46, 213, 115, 0.2);
+            border-color: #2ed573;
+            color: #2ed573;
+        }
+
+        .history-section {
+            margin-top: 2rem;
+        }
+
+        .history-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .history-header h2 {
+            font-size: 1.5rem;
+            color: #8892b0;
+        }
+
+        .history-list {
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+        }
+
+        .history-item {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 8px;
+            padding: 1rem;
+            font-size: 0.95rem;
+            line-height: 1.5;
+        }
+
+        .history-meta {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 0.5rem;
+            font-size: 0.8rem;
+            color: #5a6a8a;
+        }
+
+        .loading {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            border-top-color: #e94560;
+            animation: spin 0.8s linear infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        .fade-in {
+            animation: fadeIn 0.3s ease-in;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        footer {
+            margin-top: 3rem;
+            text-align: center;
+            color: #5a6a8a;
+            font-size: 0.85rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🔥 ExcuseForge</h1>
+            <p class="tagline">One-click technical excuses for missed lab deadlines</p>
+        </header>
+
+        <div class="generator-card">
+            <div class="controls">
+                <select class="lab-select" id="labNumber">
+                    <option value="">Any Lab</option>
+                    <option value="1">Lab 1</option>
+                    <option value="2">Lab 2</option>
+                    <option value="3">Lab 3</option>
+                    <option value="4">Lab 4</option>
+                    <option value="5">Lab 5</option>
+                    <option value="6">Lab 6</option>
+                    <option value="7">Lab 7</option>
+                    <option value="8">Lab 8</option>
+                    <option value="9">Lab 9</option>
+                    <option value="10">Lab 10</option>
+                </select>
+                <button class="generate-btn" id="generateBtn" onclick="generateExcuse()">
+                    ⚡ Generate Excuse
+                </button>
+            </div>
+
+            <div class="excuse-display">
+                <div id="excuseText" class="excuse-placeholder">
+                    Click "Generate Excuse" to create a believable technical excuse...
+                </div>
+                <div class="excuse-actions" id="excuseActions" style="display: none;">
+                    <button class="action-btn" id="copyBtn" onclick="copyExcuse()">📋 Copy to Clipboard</button>
+                    <button class="action-btn" onclick="generateExcuse()">🔄 Regenerate</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="history-section">
+            <div class="history-header">
+                <h2>Recent Excuses</h2>
+            </div>
+            <div class="history-list" id="historyList">
+                <!-- History items will be populated here -->
+            </div>
+        </div>
+
+        <footer>
+            <p>ExcuseForge v1.0 — Built for SET Course Hackathon</p>
+        </footer>
+    </div>
+
+    <script>
+        const API_BASE = '/api';
+        let currentExcuse = null;
+
+        async function generateExcuse() {
+            const btn = document.getElementById('generateBtn');
+            const excuseText = document.getElementById('excuseText');
+            const excuseActions = document.getElementById('excuseActions');
+
+            btn.disabled = true;
+            btn.innerHTML = '<span class="loading"></span> Generating...';
+            excuseText.className = 'excuse-placeholder';
+            excuseText.textContent = 'Generating excuse...';
+            excuseActions.style.display = 'none';
+
+            try {
+                const labSelect = document.getElementById('labNumber');
+                const body = {};
+                if (labSelect.value) {
+                    body.lab_number = parseInt(labSelect.value);
+                }
+
+                const response = await fetch(`${API_BASE}/excuses`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(Object.keys(body).length > 0 ? body : undefined)
+                });
+
+                if (!response.ok) throw new Error('Failed to generate excuse');
+
+                const data = await response.json();
+                currentExcuse = data;
+
+                excuseText.className = 'excuse-text fade-in';
+                excuseText.textContent = data.text;
+                excuseActions.style.display = 'flex';
+
+                // Reset copy button
+                const copyBtn = document.getElementById('copyBtn');
+                copyBtn.textContent = '📋 Copy to Clipboard';
+                copyBtn.className = 'action-btn';
+
+                // Refresh history
+                loadHistory();
+            } catch (error) {
+                excuseText.className = 'excuse-placeholder';
+                excuseText.textContent = 'Error generating excuse. Please try again.';
+                console.error('Error:', error);
+            } finally {
+                btn.disabled = false;
+                btn.innerHTML = '⚡ Generate Excuse';
+            }
+        }
+
+        async function copyExcuse() {
+            if (!currentExcuse) return;
+
+            try {
+                await navigator.clipboard.writeText(currentExcuse.text);
+                const copyBtn = document.getElementById('copyBtn');
+                copyBtn.textContent = '✓ Copied!';
+                copyBtn.className = 'action-btn copied';
+                setTimeout(() => {
+                    copyBtn.textContent = '📋 Copy to Clipboard';
+                    copyBtn.className = 'action-btn';
+                }, 2000);
+            } catch (error) {
+                // Fallback for older browsers
+                const textArea = document.createElement('textarea');
+                textArea.value = currentExcuse.text;
+                document.body.appendChild(textArea);
+                textArea.select();
+                document.execCommand('copy');
+                document.body.removeChild(textArea);
+
+                const copyBtn = document.getElementById('copyBtn');
+                copyBtn.textContent = '✓ Copied!';
+                copyBtn.className = 'action-btn copied';
+            }
+        }
+
+        async function loadHistory() {
+            try {
+                const response = await fetch(`${API_BASE}/excuses?limit=5`);
+                if (!response.ok) return;
+
+                const excuses = await response.json();
+                const historyList = document.getElementById('historyList');
+                historyList.innerHTML = '';
+
+                if (excuses.length === 0) {
+                    historyList.innerHTML = '<p style="color: #5a6a8a; text-align: center;">No excuses generated yet</p>';
+                    return;
+                }
+
+                excuses.forEach(excuse => {
+                    const item = document.createElement('div');
+                    item.className = 'history-item';
+                    const date = new Date(excuse.created_at).toLocaleString();
+                    const lab = excuse.lab_number ? `Lab ${excuse.lab_number}` : 'General';
+                    item.innerHTML = `
+                        <div>${excuse.text}</div>
+                        <div class="history-meta">
+                            <span>${date} • ${lab}</span>
+                            <span>👍 ${excuse.upvotes} 👎 ${excuse.downvotes}</span>
+                        </div>
+                    `;
+                    historyList.appendChild(item);
+                });
+            } catch (error) {
+                console.error('Error loading history:', error);
+            }
+        }
+
+        // Load history on page load
+        loadHistory();
+    </script>
+</body>
+</html>

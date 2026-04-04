@@ -1,170 +1,84 @@
-# Lab 9 - Quiz and Hackathon
+# ExcuseForge
 
-The lab opens with a quiz and then kicks off the hackathon.
+One-click realistic, technically-sounding excuse generator for university students who missed lab deadlines.
 
-To get the full point for the lab, you need to:
+## Demo
 
-- Pass Tasks 1, 2, 3 during the lab AND
-- Finish Tasks 4 and 5 by the usual deadline of Thursday 23:59.
+*(Screenshots will be added after Version 1 implementation)*
 
-Each student builds their own project:
+## Product Context
 
-- Go from an idea to a deployed product.
-- Use agents and LLMs throughout.
+### End users
+IT university students in the SET course who missed the Thursday 23:59 lab submission deadline.
 
-----
+### Problem
+Students waste 30+ minutes inventing fake technical excuses that often sound fake and aren't convincing to TAs.
 
-## Task 1 (graded by TA after the lab)
+### Solution
+ExcuseForge generates course-specific, technically plausible excuses in 1 second with a single click — no prompt writing needed. Includes history tracking and community voting to identify the most believable excuses.
 
-Pen and paper quiz:
+## Features
 
-- 20 mins;
-- closed book, no devices;
-- you get 3 random questions from the question bank;
-- answer at least 2.
+### Implemented
+- [ ] One-click excuse generation
+- [ ] Course-specific technical scenarios (Ubuntu 24.04, Docker, VM environment)
+- [ ] Copy to clipboard
+- [ ] REST API backend
+- [ ] Database logging
 
-## Task 2 (approved by TA during the lab)
+### Not yet implemented (Version 2)
+- [ ] 👍/👎 voting on excuses
+- [ ] Excuse history with timestamps
+- [ ] Per-lab filtering
+- [ ] Docker Compose deployment
+- [ ] PostgreSQL migration
 
-Ideate and plan your project.
+## Usage
 
-### Project idea
+1. Open the web app in your browser
+2. Click **"Generate Excuse"**
+3. Read the generated excuse
+4. Click **"Copy"** to copy to clipboard
+5. Paste into Moodle/chat for your TA
 
-The project idea must be:
+### Example output
+> "During the final build for Lab 7 submission, the Docker build cache became corrupted after the university VM's Ubuntu 24.04 kernel update. The `systemd-resolved` service entered a restart loop, causing DNS resolution to fail for the Moodle upload endpoint. Attempted `docker system prune --all` but the VM's disk quota was already exceeded at 98% usage."
 
-- something simple to build;
-- clearly useful;
-- easy to explain.
+## Deployment
 
-Define and show to your TA:
+### Requirements
+- Ubuntu 24.04 VM
+- Docker and Docker Compose installed
+- Port 8000 available
 
-- End-user of the product
-- What problem your product solves for the end-user?
-- The product idea in one short sentence.
-- What is the product's core feature?
+### Step-by-step
 
-### Implementation plan
+**Version 1 (local development):**
+```bash
+# Clone the repository
+git clone <repo-url>
+cd se-toolkit-hackathon
 
-When the idea is approved, produce a plan for two product versions.
+# Install dependencies
+pip install -r requirements.txt
 
-Version 1 does one core thing well:
+# Start the backend
+uvicorn app.main:app --host 0.0.0.0 --port 8000
 
-- Pick the one feature most valuable to the end-user and relatively easy to implement;
-- It is a functioning product, not a prototype;
-- Must be shown to the TA upon completion for feedback.
+# Open in browser
+# http://localhost:8000
+```
 
-Version 2 builds upon Version 1:
+**Version 2 (Docker deployment):**
+```bash
+# Build and start all services
+docker compose up -d
 
-- Improves the initial feature or adds another one on top;
-- Address TA feedback from the lab;
-- Deploy and make it available for use.
+# Access at:
+# http://<vm-ip>:8000
+```
 
-The product must have the following components, each fulfilling a useful function:
-
-- backend;
-- database;
-- end-user-facing client: web app, mobile app, or LLM-powered agent, e.g. `nanobot`.
-
-Note:
-
-- You can use the setup from Lab 8 or start from scratch.
-- `Telegram` bots are blocked on university VMs.
-
-## Task 3 (approved by TA during the lab)
-
-Implement Version 1 outlined in the plan:
-
-- Build one core feature;
-- Follow best practices and git workflow;
-- Test it yourself and fix bugs;
-- Have the TA try it as a user;
-- Take note of the TA feedback;
-- Get TA's approval for the task to be marked as DONE.
-
-## Task 4
-
-Implement and deploy Version 2 outlined in the plan:
-
-- Build and polish functionality;
-- Take TA feedback into account;
-- Push all code to the GitHub repo (see the detailed instructions below);
-- Follow best practices and git workflow;
-- Document your solution;
-- Dockerize all services;
-- Deploy it to be accessible to use.
-
-Version 2 can be completed during the lab or after it, before the usual deadline.
-
-## Task 5 (demo and PDF submitted through Moodle)
-
-Submit a presentation with five slides:
-
-1. Title:
-
-   - Product title
-   - Your name
-   - Your university email
-   - Your group
-
-2. Context:
-
-   - End-user of the product
-   - What problem your product solves
-   - The product idea in one short sentence
-
-3. Implementation:
-
-   - How you built the product
-   - What went into Version 1 and Version 2
-   - What TA feedback points you addressed
-
-4. Demo:
-
-   - Pre-recorded video demonstration of Version 2 with voice-over (no longer than 2 minutes).
-   - _Note:_ **This is the most important part of the presentation**.
-
-5. Links:
-
-   - Link and QR code for each of these:
-     - The GitHub repo with the product code
-     - Deployed product (latest version)
-
-----
-
-## Publishing the product code on GitHub
-
-- Publish the product code in a repository on `GitHub`.
-
-  The repository must be called `se-toolkit-hackathon`.
-
-- Add the MIT license file to make your product open-source.
-
-- Add `README.md` in the product repository.
-
-  `README.md` structure:
-
-  - Product name (as title)
-
-  - One-line description
-
-  - Demo:
-    - A couple of relevant screenshots of the product
-
-  - Product context:
-
-    - End users
-    - Problem that your product solves for end users
-    - Your solution
-
-  - Features:
-
-    - Implemented and not yet implemented features
-
-  - Usage:
-
-    - Explain how to use your product
-
-  - Deployment:
-
-    - Which OS the VM should run on (you may assume `Ubuntu 24.04` like on your university VMs)
-    - What should be installed on the VM
-    - Step-by-step deployment instructions
+### Architecture
+```
+Web Client (HTML/JS) → FastAPI Backend → PostgreSQL Database
+```

@@ -1,0 +1,19 @@
+{
+  "permissions": {
+    "allow": [
+      "WebFetch(github.com)",
+      "Bash(mkdir *)",
+      "Bash(pip install *)",
+      "Bash(python3 *)",
+      "Bash(uv *)",
+      "Bash(sleep *)",
+      "Bash(curl *)",
+      "Bash(true)",
+      "Bash(lsof *)",
+      "Bash(xargs *)",
+      "Bash(rm *)",
+      "Bash(git add *)"
+    ]
+  },
+  "$version": 3
+}
