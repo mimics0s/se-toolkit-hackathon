@@ -5,46 +5,46 @@ import random
 # Template components for generating realistic technical excuses
 CAUSES = [
     "Docker build cache became corrupted",
-    "systemd-resolved service entered a restart loop",
-    "disk quota was exceeded",
-    "the Ubuntu 24.04 kernel update broke the network driver",
-    "a misconfigured cron job triggered an unexpected cleanup",
-    "the OOM killer terminated the build process",
-    "an apt upgrade interrupted mid-way",
-    "the Docker daemon failed to start after a VM reboot",
-    "a stale PID file prevented service startup",
-    "the NTP client desynchronized",
-    "an inode table overflow occurred",
-    "the AppArmor profile blocked container networking",
-    "a rogue .env file overwrote production config",
-    "the swap partition filled up during compilation",
-    "a filesystem snapshot rollback reverted recent changes",
+    "Systemd-resolved service entered a restart loop",
+    "Disk quota was exceeded",
+    "Ubuntu 24.04 kernel update broke the network driver",
+    "Misconfigured cron job triggered an unexpected cleanup",
+    "OOM killer terminated the build process",
+    "Apt upgrade interrupted mid-way",
+    "Docker daemon failed to start after a VM reboot",
+    "Stale PID file prevented service startup",
+    "NTP client desynchronized",
+    "Inode table overflow occurred",
+    "AppArmor profile blocked container networking",
+    "Rogue .env file overwrote production config",
+    "Swap partition filled up during compilation",
+    "Filesystem snapshot rollback reverted recent changes",
 ]
 
 CONTEXTS = [
-    "on the university VM",
-    "during the lab submission process",
-    "while building the project Docker container",
-    "when uploading to Moodle",
-    "during the final push before the Thursday 23:59 deadline",
-    "inside the lab's Docker container environment",
-    "while running the CI/CD pipeline on the VM",
-    "during the Moodle assignment upload",
-    "while testing on the development server",
-    "when pulling dependencies during the build",
+    "On the university VM",
+    "During the lab submission process",
+    "While building the project Docker container",
+    "When uploading to Moodle",
+    "During the final push before the Thursday 23:59 deadline",
+    "Inside the lab's Docker container environment",
+    "While running the CI/CD pipeline on the VM",
+    "During the Moodle assignment upload",
+    "While testing on the development server",
+    "When pulling dependencies during the build",
 ]
 
 SYMPTOMS = [
-    "causing DNS resolution to fail for the Moodle upload endpoint",
-    "resulting in a 'Connection refused' error on port 8000",
-    "which triggered a 'Permission denied' error on /var/lib/docker",
-    "causing the build to timeout after 30 minutes",
-    "resulting in a 'No space left on device' error",
-    "which caused a segmentation fault during compilation",
-    "resulting in a '502 Bad Gateway' from the reverse proxy",
-    "causing all container health checks to fail",
-    "which made the database connection pool exhaust all available connections",
-    "resulting in a 'Killed' message from the OOM killer",
+    "Causing DNS resolution to fail for the Moodle upload endpoint",
+    "Resulting in a 'Connection refused' error on port 8000",
+    "Which triggered a 'Permission denied' error on /var/lib/docker",
+    "Causing the build to timeout after 30 minutes",
+    "Resulting in a 'No space left on device' error",
+    "Which caused a segmentation fault during compilation",
+    "Resulting in a '502 Bad Gateway' from the reverse proxy",
+    "Causing all container health checks to fail",
+    "Which made the database connection pool exhaust all available connections",
+    "Resulting in a 'Killed' message from the OOM killer",
 ]
 
 RECOVERY_ATTEMPTS = [
@@ -69,13 +69,20 @@ COURSE_SPECIFIC = [
     "The university VM's Telegram block prevented automated status alerts during troubleshooting.",
 ]
 
+# Fallback course-specific templates without lab number
+COURSE_SPECIFIC_GENERAL = [
+    "This occurred during the SET course lab submission.",
+    "The issue prevented on-time submission for the Thursday deadline.",
+    "The university VM's Telegram block prevented automated status alerts during troubleshooting.",
+]
+
 
 def generate_excuse(lab_number: int | None = None) -> str:
     """Generate a random technical excuse by combining template components."""
-    cause = random.choice(CAUSES)
-    context = random.choice(CONTEXTS)
-    symptom = random.choice(SYMPTOMS)
-    recovery = random.choice(RECOVERY_ATTEMPTS)
+    cause = random.choice(CAUSES).capitalize()
+    context = random.choice(CONTEXTS).capitalize()
+    symptom = random.choice(SYMPTOMS).capitalize()
+    recovery = random.choice(RECOVERY_ATTEMPTS).capitalize()
 
     # Build the core excuse
     excuse = f"{cause} {context}, {symptom}. {recovery}"
@@ -84,12 +91,7 @@ def generate_excuse(lab_number: int | None = None) -> str:
     if lab_number:
         course_detail = random.choice(COURSE_SPECIFIC).format(lab=lab_number)
     else:
-        # Use templates that don't require lab number
-        course_detail = random.choice([
-            "This occurred during the SET course lab submission.",
-            "The issue prevented on-time submission for the Thursday deadline.",
-            "The university VM's Telegram block prevented automated status alerts during troubleshooting.",
-        ])
+        course_detail = random.choice(COURSE_SPECIFIC_GENERAL)
 
     excuse += f" {course_detail}"
 
