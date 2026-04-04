@@ -13,7 +13,9 @@
       "Bash(xargs *)",
       "Bash(rm *)",
       "Bash(git add *)",
-      "Bash(git commit *)"
+      "Bash(git commit *)",
+      "Bash(kill *)",
+      "Bash(ss *)"
     ]
   },
   "$version": 3

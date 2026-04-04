@@ -222,6 +222,9 @@
         <header>
             <h1>🔥 ExcuseForge</h1>
             <p class="tagline">One-click technical excuses for missed lab deadlines</p>
+            <p class="tagline" style="font-size: 0.85rem; color: #5a6a8a; margin-top: 0.25rem;">
+                Analyzing your GitHub repos: <span id="repoStatus">loading...</span>
+            </p>
         </header>
 
         <div class="generator-card">
@@ -272,6 +275,41 @@
     <script>
         const API_BASE = '/api';
         let currentExcuse = null;
+
+        async function loadLabInfo() {
+            const statusEl = document.getElementById('repoStatus');
+            try {
+                const response = await fetch(`${API_BASE}/labs`);
+                if (!response.ok) {
+                    statusEl.textContent = 'could not analyze repos';
+                    return;
+                }
+
+                const data = await response.json();
+                const labs = data.labs || [];
+                const totalLabs = data.total_labs || 0;
+                const techs = data.all_technologies || [];
+
+                // Update status text
+                statusEl.textContent = `${totalLabs} labs found (${techs.slice(0, 4).join(', ')}...)`;
+
+                // Update lab selector dropdown
+                const labSelect = document.getElementById('labNumber');
+                // Clear existing options except first
+                labSelect.innerHTML = '<option value="">Any Lab</option>';
+
+                labs.forEach(lab => {
+                    const option = document.createElement('option');
+                    option.value = lab.lab_number;
+                    const techPreview = lab.technologies ? lab.technologies.slice(0, 2).join(', ') : '';
+                    option.textContent = `Lab ${lab.lab_number}${techPreview ? ' — ' + techPreview : ''}`;
+                    labSelect.appendChild(option);
+                });
+            } catch (error) {
+                statusEl.textContent = 'could not analyze repos';
+                console.error('Error loading lab info:', error);
+            }
+        }
 
         async function generateExcuse() {
             const btn = document.getElementById('generateBtn');
@@ -383,8 +421,9 @@
             }
         }
 
-        // Load history on page load
+        // Load history and lab info on page load
         loadHistory();
+        loadLabInfo();
     </script>
 </body>
 </html>

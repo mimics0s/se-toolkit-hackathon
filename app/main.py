@@ -11,6 +11,7 @@ import os
 from app.database import engine, get_db, Base
 from app.models import Excuse
 from app.excuse_generator import generate_excuse
+from app.github_analyzer import get_lab_context
 
 # Create database tables
 Base.metadata.create_all(bind=engine)
@@ -46,6 +47,12 @@ class VoteRequest(BaseModel):
 def health_check():
     """Health check endpoint."""
     return {"status": "ok", "service": "ExcuseForge"}
+
+
+@app.get("/api/labs")
+def get_labs():
+    """Get lab information analyzed from user's GitHub repositories."""
+    return get_lab_context()
 
 
 @app.post("/api/excuses", response_model=ExcuseResponse)

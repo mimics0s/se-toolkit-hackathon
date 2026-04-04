@@ -1,6 +1,7 @@
 """Excuse generation logic using template-based randomization."""
 
 import random
+from app.github_analyzer import get_lab_context
 
 # Template components for generating realistic technical excuses
 CAUSES = [
@@ -20,6 +21,45 @@ CAUSES = [
     "Swap partition filled up during compilation",
     "Filesystem snapshot rollback reverted recent changes",
 ]
+
+# Lab-specific context overrides based on GitHub repo analysis
+LAB_SPECIFIC_CAUSES = {
+    2: [
+        "VM deployment pipeline failed during the remote Linux setup",
+        "Docker compose on the remote VM refused to start after a reboot",
+        "SSH key authentication broke after the VM network reconfiguration",
+    ],
+    3: [
+        "FastAPI migration script corrupted the database schema",
+        "Pytest fixtures left dangling database connections",
+        "SQLAlchemy session pool exhausted during load testing",
+    ],
+    4: [
+        "Front-end build pipeline failed after the AI agent dependency update",
+        "Jest test suite crashed during the front-end integration phase",
+        "Agent response parsing failed after the API contract changed",
+    ],
+    5: [
+        "ETL pipeline job failed while syncing the analytics database",
+        "Data transformation script hit a type error on the production dataset",
+        "Analytics dashboard backend timed out during the aggregation query",
+    ],
+    6: [
+        "Agent tool-calling loop entered an infinite recursion",
+        "LLM context window overflowed during the multi-step reasoning task",
+        "Agent intent routing failed after the function schema changed",
+    ],
+    7: [
+        "Telegram bot webhook certificate expired on the university VM",
+        "Telegram polling loop was blocked by the VM's network restrictions",
+        "Bot handler threw an unhandled exception during message processing",
+    ],
+    8: [
+        "Agent interface failed to parse the tool output from the external API",
+        "Multi-agent orchestration entered a deadlock state",
+        "Agent memory buffer exceeded during the complex workflow execution",
+    ],
+}
 
 CONTEXTS = [
     "On the university VM",
@@ -76,9 +116,42 @@ COURSE_SPECIFIC_GENERAL = [
 ]
 
 
+def _get_lab_specific_cause(lab_number: int | None) -> str | None:
+    """Get a cause specific to the lab based on GitHub repo analysis."""
+    if not lab_number:
+        return None
+
+    # First check if we have hardcoded lab-specific causes
+    if lab_number in LAB_SPECIFIC_CAUSES:
+        return random.choice(LAB_SPECIFIC_CAUSES[lab_number])
+
+    # Otherwise, try to get context from GitHub
+    lab_context = get_lab_context(lab_number)
+    techs = lab_context.get("technologies", [])
+
+    tech_causes = {
+        "telegram": "Telegram bot webhook failed to initialize on the university VM",
+        "agent": "Agent tool-calling strategy failed during the task execution",
+        "data_pipeline": "ETL pipeline job failed while processing the dataset",
+        "rest": "REST API endpoint threw an error during the final integration test",
+        "docker": "Docker container refused to start on the university VM",
+        "database": "Database migration script failed during the schema update",
+        "testing": "Test suite failed during the CI pipeline validation",
+    }
+
+    for tech in techs:
+        if tech in tech_causes:
+            return tech_causes[tech]
+
+    return None
+
+
 def generate_excuse(lab_number: int | None = None) -> str:
     """Generate a random technical excuse by combining template components."""
-    cause = random.choice(CAUSES)
+    # Try to get a lab-specific cause first
+    lab_cause = _get_lab_specific_cause(lab_number)
+    cause = lab_cause if lab_cause else random.choice(CAUSES)
+
     context = random.choice(CONTEXTS)
     symptom = random.choice(SYMPTOMS)
     recovery = random.choice(RECOVERY_ATTEMPTS)
