@@ -69,7 +69,6 @@ COURSE_SPECIFIC = [
     "The university VM's Telegram block prevented automated status alerts during troubleshooting.",
 ]
 
-# Fallback course-specific templates without lab number
 COURSE_SPECIFIC_GENERAL = [
     "This occurred during the SET course lab submission.",
     "The issue prevented on-time submission for the Thursday deadline.",
@@ -79,10 +78,10 @@ COURSE_SPECIFIC_GENERAL = [
 
 def generate_excuse(lab_number: int | None = None) -> str:
     """Generate a random technical excuse by combining template components."""
-    cause = random.choice(CAUSES).capitalize()
-    context = random.choice(CONTEXTS).capitalize()
-    symptom = random.choice(SYMPTOMS).capitalize()
-    recovery = random.choice(RECOVERY_ATTEMPTS).capitalize()
+    cause = random.choice(CAUSES)
+    context = random.choice(CONTEXTS)
+    symptom = random.choice(SYMPTOMS)
+    recovery = random.choice(RECOVERY_ATTEMPTS)
 
     # Build the core excuse
     excuse = f"{cause} {context}, {symptom}. {recovery}"
