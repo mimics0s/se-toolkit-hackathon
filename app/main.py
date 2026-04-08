@@ -22,6 +22,16 @@ Base.metadata.create_all(bind=engine)
 app = FastAPI(title="ExcuseForge", version="1.0.0")
 
 
+# --- Middleware: set session cookie if not present ---
+@app.middleware("http")
+async def add_session_cookie(request: Request, call_next):
+    response = await call_next(request)
+    if "excuse_session" not in request.cookies:
+        session_id = str(uuid.uuid4())
+        response.set_cookie(key="excuse_session", value=session_id, httponly=True, max_age=30 * 24 * 3600)
+    return response
+
+
 # --- Pydantic schemas ---
 
 class ExcuseResponse(BaseModel):
