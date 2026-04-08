@@ -1,18 +1,20 @@
 """FastAPI application for ExcuseForge."""
 
-from fastapi import FastAPI, Depends, HTTPException
+from fastapi import FastAPI, Depends, HTTPException, Request, Response
 from fastapi.staticfiles import StaticFiles
 from fastapi.responses import FileResponse
+from fastapi.responses import StreamingResponse
 from sqlalchemy.orm import Session
 from pydantic import BaseModel, Field
 from datetime import datetime, timezone
+from io import BytesIO
 import os
+import uuid
 
 from app.database import engine, get_db, Base
 from app.models import Excuse, SavedRepo, Vote
 from app.excuse_generator import generate_excuse
 from app.github_analyzer import get_lab_context
-from starlette.requests import Request
 
 # Create database tables
 Base.metadata.create_all(bind=engine)
@@ -159,11 +161,11 @@ def list_excuses(
     excuses = query.limit(limit).all()
 
     # Build vote lookup for this user
-    client_ip = request.client.host
+    session_id = request.cookies.get("excuse_session", "")
     excuse_ids = [e.id for e in excuses]
     votes = db.query(Vote).filter(
         Vote.excuse_id.in_(excuse_ids),
-        Vote.voter_ip == client_ip,
+        Vote.voter_ip == session_id,
     ).all() if excuse_ids else []
     vote_map = {v.excuse_id: v.direction for v in votes}
 
@@ -189,10 +191,10 @@ def get_excuse(excuse_id: int, request: Request, db: Session = Depends(get_db)):
     if not excuse:
         raise HTTPException(status_code=404, detail="Excuse not found")
 
-    client_ip = request.client.host
+    session_id = request.cookies.get("excuse_session", "")
     vote = db.query(Vote).filter(
         Vote.excuse_id == excuse_id,
-        Vote.voter_ip == client_ip,
+        Vote.voter_ip == session_id,
     ).first()
 
     return {
@@ -214,13 +216,15 @@ def vote_excuse(excuse_id: int, vote: VoteRequest, request: Request, db: Session
     if not excuse:
         raise HTTPException(status_code=404, detail="Excuse not found")
 
-    # Get client IP
-    client_ip = request.client.host
+    # Get or create session cookie for voter identification
+    session_id = request.cookies.get("excuse_session")
+    if not session_id:
+        session_id = str(uuid.uuid4())
 
     # Check if already voted
     existing = db.query(Vote).filter(
         Vote.excuse_id == excuse_id,
-        Vote.voter_ip == client_ip,
+        Vote.voter_ip == session_id,
     ).first()
 
     if existing:
@@ -250,7 +254,7 @@ def vote_excuse(excuse_id: int, vote: VoteRequest, request: Request, db: Session
             excuse.upvotes += 1
         else:
             excuse.downvotes += 1
-        new_vote = Vote(excuse_id=excuse_id, voter_ip=client_ip, direction=vote.direction)
+        new_vote = Vote(excuse_id=excuse_id, voter_ip=session_id, direction=vote.direction)
         db.add(new_vote)
         db.commit()
 
@@ -259,7 +263,7 @@ def vote_excuse(excuse_id: int, vote: VoteRequest, request: Request, db: Session
     # Find the user's current vote
     user_vote = db.query(Vote).filter(
         Vote.excuse_id == excuse.id,
-        Vote.voter_ip == client_ip,
+        Vote.voter_ip == session_id,
     ).first()
 
     return {
@@ -285,6 +289,79 @@ def delete_excuse(excuse_id: int, db: Session = Depends(get_db)):
     db.delete(excuse)
     db.commit()
     return {"message": "Excuse deleted"}
+
+
+@app.get("/api/excuses/{excuse_id}/export-pdf")
+def export_excuse_pdf(excuse_id: int, db: Session = Depends(get_db)):
+    """Export a single excuse as a PDF document."""
+    excuse = db.query(Excuse).filter(Excuse.id == excuse_id).first()
+    if not excuse:
+        raise HTTPException(status_code=404, detail="Excuse not found")
+
+    from reportlab.lib.pagesizes import A4
+    from reportlab.lib.units import mm
+    from reportlab.platypus import SimpleDocTemplate, Paragraph, Spacer
+    from reportlab.lib.styles import getSampleStyleSheet, ParagraphStyle
+    from reportlab.lib.colors import HexColor
+
+    buf = BytesIO()
+    doc = SimpleDocTemplate(
+        buf,
+        pagesize=A4,
+        rightMargin=25 * mm,
+        leftMargin=25 * mm,
+        topMargin=25 * mm,
+        bottomMargin=25 * mm,
+    )
+
+    styles = getSampleStyleSheet()
+    title_style = ParagraphStyle(
+        "ExcuseTitle",
+        parent=styles["Title"],
+        fontSize=18,
+        textColor=HexColor("#1a1a2e"),
+        spaceAfter=6 * mm,
+    )
+    meta_style = ParagraphStyle(
+        "ExcuseMeta",
+        parent=styles["Normal"],
+        fontSize=9,
+        textColor=HexColor("#5a6a8a"),
+        spaceAfter=12 * mm,
+    )
+    body_style = ParagraphStyle(
+        "ExcuseBody",
+        parent=styles["Normal"],
+        fontSize=12,
+        leading=18,
+        textColor=HexColor("#333333"),
+        spaceAfter=20 * mm,
+    )
+
+    lab_str = f"Lab {excuse.lab_number}" if excuse.lab_number else "General"
+    date_str = excuse.created_at.strftime("%Y-%m-%d %H:%M UTC")
+    meta_text = f"<b>{lab_str}</b> &bull; {date_str} &bull; 👍 {excuse.upvotes} 👎 {excuse.downvotes}"
+
+    elements = [
+        Paragraph("🔥 ExcuseForge", title_style),
+        Paragraph(meta_text, meta_style),
+        Paragraph(excuse.text.replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;"), body_style),
+        Spacer(1, 30 * mm),
+        Paragraph(
+            '<font color="#8892b0" size="8">Generated by ExcuseForge — excuseforge.app</font>',
+            styles["Normal"],
+        ),
+    ]
+
+    doc.build(elements)
+    buf.seek(0)
+
+    filename = f"excuse_{excuse_id}.pdf"
+    return StreamingResponse(
+        buf,
+        media_type="application/pdf",
+        headers={"Content-Disposition": f'attachment; filename="{filename}"'},
+    )
 
 
 # --- Saved Repositories Routes ---

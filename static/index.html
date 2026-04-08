@@ -689,6 +689,11 @@
             }
         }
 
+        // --- Export excuse as PDF ---
+        function exportPDF(excuseId) {
+            window.open(`${API_BASE}/excuses/${excuseId}/export-pdf`, '_blank');
+        }
+
         // --- Load history with filters ---
         async function loadHistory() {
             try {
@@ -731,6 +736,7 @@
                                 <button class="${upClass}" onclick="voteExcuse(${excuse.id}, 'up')">👍 ${excuse.upvotes}</button>
                                 <button class="${downClass}" onclick="voteExcuse(${excuse.id}, 'down')">👎 ${excuse.downvotes}</button>
                                 <button class="delete-btn" onclick="deleteExcuse(${excuse.id})">🗑 Delete</button>
+                                <button class="delete-btn" onclick="exportPDF(${excuse.id})">📄 PDF</button>
                             </span>
                         </div>
                     `;

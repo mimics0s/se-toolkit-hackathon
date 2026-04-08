@@ -24,7 +24,8 @@
       "Bash(head *)",
       "Bash(timeout *)",
       "Bash(cat *)",
-      "Bash(fuser *)"
+      "Bash(fuser *)",
+      "Bash(.venv/bin/pip *)"
     ]
   },
   "$version": 3

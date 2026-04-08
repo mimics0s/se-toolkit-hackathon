@@ -53,7 +53,10 @@ Everything from Version 1, plus:
 - 🔄 **Multi-column sorting** — by date, upvotes, downvotes (ascending/descending)
 - 🏷️ **Per-lab filtering** — show only excuses for a specific lab
 - 🗑️ **Delete excuses** — remove old excuses from history
-- REST API with 9 documented endpoints
+- 📄 **PDF export** — download any excuse as a formatted PDF
+- Cookie-based session voting — one vote per browser session per excuse
+- REST API with 10 documented endpoints
+- 🐳 **Docker Compose deployment** — PostgreSQL + app in one command
 - MIT license
 
 ## Features
@@ -69,17 +72,16 @@ Everything from Version 1, plus:
 | Search | Real-time keyword search with 350ms debounce |
 | Sort | 6 modes: newest, oldest, most/least upvoted, most/least downvoted |
 | Lab filter | Filter history by lab number |
-| Voting | One-time upvote/downvote with toggle (click again to remove) |
+| Voting | One vote per session, toggle to remove |
 | Delete | Remove any excuse from history |
+| PDF export | Download any excuse as a formatted PDF |
 | History | Timestamped, filterable, searchable |
-| REST API | 9 endpoints, fully documented |
+| REST API | 10 endpoints, fully documented |
 
 ### Not yet implemented
 
-- [ ] Docker Compose deployment
-- [ ] PostgreSQL migration
+- [ ] Excuse sharing/export as image
 - [ ] OAuth-based user identification for voting
-- [ ] Excuse sharing/export (PDF, image)
 
 ## Usage
 
@@ -112,44 +114,49 @@ To generate lab-specific excuses from your own repos:
 
 Ubuntu 24.04 LTS (same as the university VMs).
 
-### Prerequisites
+### Option A: Docker Compose (recommended)
 
-The following must be installed on the VM:
-
-- Python 3.14+ (or 3.12+)
-- pip (Python package manager)
-- A web browser or any HTTP client
-- Port 8000 available
-
-### Step-by-step
-
-#### 1. Clone the repository
+Prerequisites: Docker and Docker Compose installed.
 
 ```bash
+# Clone the repository
 git clone https://github.com/<your-username>/se-toolkit-hackathon.git
 cd se-toolkit-hackathon
+
+# Start everything (PostgreSQL + app)
+docker compose up -d
+
+# Access at:
+# http://<vm-ip>:8000
 ```
 
-#### 2. Install dependencies
+The app will use PostgreSQL automatically. All data persists in a Docker volume.
+
+### Option B: Local development (SQLite)
+
+Prerequisites: Python 3.12+, pip, port 8000 available.
 
 ```bash
+# Clone the repository
+git clone https://github.com/<your-username>/se-toolkit-hackathon.git
+cd se-toolkit-hackathon
+
+# Install dependencies
 pip install -r requirements.txt
+
+# Start the backend (uses SQLite by default)
+uvicorn app.main:app --host 0.0.0.0 --port 8000
+
+# Open in browser
+# http://localhost:8000
 ```
 
-#### 3. Start the server
+To use PostgreSQL locally, set the `DATABASE_URL` environment variable:
 
 ```bash
+export DATABASE_URL="postgresql+psycopg2://user:pass@localhost:5432/excuseforge"
 uvicorn app.main:app --host 0.0.0.0 --port 8000
 ```
-
-#### 4. Open in browser
-
-Navigate to:
-
-- **Local:** `http://localhost:8000`
-- **VM:** `http://<vm-ip>:8000`
-
-The database (`excuses.db`) is created automatically on first run.
 
 ### Project structure
 
