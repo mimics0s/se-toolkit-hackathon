@@ -59,6 +59,11 @@ LAB_SPECIFIC_CAUSES = {
         "Multi-agent orchestration entered a deadlock state",
         "Agent memory buffer exceeded during the complex workflow execution",
     ],
+    9: [
+        "Advanced agent workflow failed during the multi-step task orchestration",
+        "Agent evaluation pipeline produced inconsistent benchmark results",
+        "LangChain agent state machine entered an invalid transition during demo",
+    ],
 }
 
 CONTEXTS = [

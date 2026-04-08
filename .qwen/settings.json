@@ -15,7 +15,16 @@
       "Bash(git add *)",
       "Bash(git commit *)",
       "Bash(kill *)",
-      "Bash(ss *)"
+      "Bash(ss *)",
+      "Bash(pkill *)",
+      "Bash(.venv/bin/python *)",
+      "Bash(find *)",
+      "Bash(cd *)",
+      "Bash(echo *)",
+      "Bash(head *)",
+      "Bash(timeout *)",
+      "Bash(cat *)",
+      "Bash(fuser *)"
     ]
   },
   "$version": 3

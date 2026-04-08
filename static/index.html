@@ -147,6 +147,7 @@
             color: #2ed573;
         }
 
+        /* History section */
         .history-section {
             margin-top: 2rem;
         }
@@ -161,6 +162,34 @@
         .history-header h2 {
             font-size: 1.5rem;
             color: #8892b0;
+        }
+
+        .filter-row {
+            display: flex;
+            gap: 0.75rem;
+            align-items: center;
+            flex-wrap: wrap;
+            margin-bottom: 1rem;
+        }
+
+        .filter-label {
+            color: #5a6a8a;
+            font-size: 0.9rem;
+        }
+
+        .search-input {
+            flex: 1;
+            min-width: 180px;
+            padding: 0.6rem 1rem;
+            border-radius: 8px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            background: rgba(0, 0, 0, 0.3);
+            color: #e0e0e0;
+            font-size: 0.9rem;
+        }
+
+        .search-input::placeholder {
+            color: #5a6a8a;
         }
 
         .history-list {
@@ -181,11 +210,192 @@
         .history-meta {
             display: flex;
             justify-content: space-between;
+            align-items: center;
             margin-top: 0.5rem;
             font-size: 0.8rem;
             color: #5a6a8a;
+            flex-wrap: wrap;
+            gap: 0.5rem;
         }
 
+        .vote-btn {
+            padding: 0.2rem 0.5rem;
+            border-radius: 4px;
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            background: rgba(255, 255, 255, 0.05);
+            color: #8892b0;
+            cursor: pointer;
+            font-size: 0.8rem;
+            transition: background 0.2s;
+        }
+
+        .vote-btn:hover {
+            background: rgba(255, 255, 255, 0.15);
+        }
+
+        .vote-btn.active-up {
+            background: rgba(46, 213, 115, 0.2);
+            border-color: #2ed573;
+            color: #2ed573;
+        }
+
+        .vote-btn.active-down {
+            background: rgba(233, 69, 96, 0.2);
+            border-color: #e94560;
+            color: #e94560;
+        }
+
+        .delete-btn {
+            padding: 0.2rem 0.5rem;
+            border-radius: 4px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            background: rgba(255, 255, 255, 0.03);
+            color: #5a6a8a;
+            cursor: pointer;
+            font-size: 0.75rem;
+            transition: background 0.2s, color 0.2s;
+            margin-left: 0.5rem;
+        }
+
+        .delete-btn:hover {
+            background: rgba(233, 69, 96, 0.15);
+            color: #e94560;
+            border-color: rgba(233, 69, 96, 0.3);
+        }
+
+        /* Repository section */
+        .repo-section {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 16px;
+            padding: 2rem;
+            backdrop-filter: blur(10px);
+            margin-bottom: 2rem;
+        }
+
+        .repo-section h2 {
+            font-size: 1.5rem;
+            color: #8892b0;
+            margin-bottom: 1rem;
+        }
+
+        .repo-input-row {
+            display: flex;
+            gap: 0.75rem;
+            margin-bottom: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .repo-input {
+            flex: 1;
+            min-width: 200px;
+            padding: 0.75rem 1rem;
+            border-radius: 8px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            background: rgba(0, 0, 0, 0.3);
+            color: #e0e0e0;
+            font-size: 0.95rem;
+        }
+
+        .repo-input::placeholder {
+            color: #5a6a8a;
+        }
+
+        .repo-add-btn {
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
+            border: none;
+            background: linear-gradient(135deg, #0f3460, #16213e);
+            color: #e0e0e0;
+            font-size: 0.95rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.1s, box-shadow 0.2s;
+            white-space: nowrap;
+        }
+
+        .repo-add-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 20px rgba(15, 52, 96, 0.4);
+        }
+
+        .repo-add-btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .repo-list {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .repo-item {
+            background: rgba(0, 0, 0, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 8px;
+            padding: 0.75rem 1rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+
+        .repo-info {
+            flex: 1;
+            min-width: 150px;
+        }
+
+        .repo-info .repo-name-text {
+            color: #ccd6f6;
+            font-weight: 600;
+            font-size: 0.95rem;
+        }
+
+        .repo-info .repo-meta {
+            font-size: 0.8rem;
+            color: #5a6a8a;
+            margin-top: 0.25rem;
+        }
+
+        .repo-actions {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .repo-gen-btn {
+            padding: 0.4rem 0.8rem;
+            border-radius: 6px;
+            border: 1px solid rgba(233, 69, 96, 0.4);
+            background: rgba(233, 69, 96, 0.15);
+            color: #e94560;
+            cursor: pointer;
+            font-size: 0.85rem;
+            transition: background 0.2s;
+        }
+
+        .repo-gen-btn:hover {
+            background: rgba(233, 69, 96, 0.3);
+        }
+
+        .repo-remove-btn {
+            padding: 0.4rem 0.8rem;
+            border-radius: 6px;
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            background: rgba(255, 255, 255, 0.05);
+            color: #8892b0;
+            cursor: pointer;
+            font-size: 0.85rem;
+            transition: background 0.2s;
+        }
+
+        .repo-remove-btn:hover {
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        /* Utilities */
         .loading {
             display: inline-block;
             width: 20px;
@@ -258,9 +468,63 @@
             </div>
         </div>
 
+        <div class="repo-section">
+            <h2>📦 Add a Lab Repository</h2>
+            <p style="color: #8892b0; font-size: 0.9rem; margin-bottom: 1rem; line-height: 1.5;">
+                Paste a link to your GitHub repo for any lab (1–10). We'll analyze the code and generate
+                a lab-specific excuse. You can add multiple repos to create excuses for different labs.
+            </p>
+            <div class="repo-input-row">
+                <input type="text" class="repo-input" id="repoUrlInput" placeholder="https://github.com/owner/repo">
+                <select class="lab-select" id="repoLabSelect" style="min-width: 120px;">
+                    <option value="">No lab</option>
+                    <option value="1">Lab 1</option>
+                    <option value="2">Lab 2</option>
+                    <option value="3">Lab 3</option>
+                    <option value="4">Lab 4</option>
+                    <option value="5">Lab 5</option>
+                    <option value="6">Lab 6</option>
+                    <option value="7">Lab 7</option>
+                    <option value="8">Lab 8</option>
+                    <option value="9">Lab 9</option>
+                    <option value="10">Lab 10</option>
+                </select>
+                <button class="repo-add-btn" id="addRepoBtn" onclick="addRepo()">+ Add Repo</button>
+            </div>
+            <div class="repo-list" id="repoList">
+                <!-- Saved repos will be populated here -->
+            </div>
+        </div>
+
         <div class="history-section">
             <div class="history-header">
                 <h2>Recent Excuses</h2>
+            </div>
+            <div class="filter-row">
+                <span class="filter-label">Lab:</span>
+                <select class="lab-select" id="historyLabFilter" onchange="loadHistory()" style="min-width:120px;">
+                    <option value="">All</option>
+                    <option value="1">Lab 1</option>
+                    <option value="2">Lab 2</option>
+                    <option value="3">Lab 3</option>
+                    <option value="4">Lab 4</option>
+                    <option value="5">Lab 5</option>
+                    <option value="6">Lab 6</option>
+                    <option value="7">Lab 7</option>
+                    <option value="8">Lab 8</option>
+                    <option value="9">Lab 9</option>
+                    <option value="10">Lab 10</option>
+                </select>
+                <span class="filter-label">Sort:</span>
+                <select class="lab-select" id="historySort" onchange="loadHistory()" style="min-width:140px;">
+                    <option value="created_at-desc">Newest first</option>
+                    <option value="created_at-asc">Oldest first</option>
+                    <option value="upvotes-desc">Most upvoted</option>
+                    <option value="upvotes-asc">Least upvoted</option>
+                    <option value="downvotes-desc">Most downvoted</option>
+                    <option value="downvotes-asc">Least downvoted</option>
+                </select>
+                <input type="text" class="search-input" id="historySearch" placeholder="🔍 Search excuses..." oninput="debounceSearch()">
             </div>
             <div class="history-list" id="historyList">
                 <!-- History items will be populated here -->
@@ -275,7 +539,15 @@
     <script>
         const API_BASE = '/api';
         let currentExcuse = null;
+        let searchTimeout = null;
 
+        // --- Debounced search ---
+        function debounceSearch() {
+            clearTimeout(searchTimeout);
+            searchTimeout = setTimeout(() => loadHistory(), 350);
+        }
+
+        // --- Lab info from GitHub ---
         async function loadLabInfo() {
             const statusEl = document.getElementById('repoStatus');
             try {
@@ -290,12 +562,9 @@
                 const totalLabs = data.total_labs || 0;
                 const techs = data.all_technologies || [];
 
-                // Update status text
                 statusEl.textContent = `${totalLabs} labs found (${techs.slice(0, 4).join(', ')}...)`;
 
-                // Update lab selector dropdown
                 const labSelect = document.getElementById('labNumber');
-                // Clear existing options except first
                 labSelect.innerHTML = '<option value="">Any Lab</option>';
 
                 labs.forEach(lab => {
@@ -311,6 +580,7 @@
             }
         }
 
+        // --- Generate excuse ---
         async function generateExcuse() {
             const btn = document.getElementById('generateBtn');
             const excuseText = document.getElementById('excuseText');
@@ -332,7 +602,7 @@
                 const response = await fetch(`${API_BASE}/excuses`, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(Object.keys(body).length > 0 ? body : undefined)
+                    body: Object.keys(body).length > 0 ? JSON.stringify(body) : undefined
                 });
 
                 if (!response.ok) throw new Error('Failed to generate excuse');
@@ -344,12 +614,10 @@
                 excuseText.textContent = data.text;
                 excuseActions.style.display = 'flex';
 
-                // Reset copy button
                 const copyBtn = document.getElementById('copyBtn');
                 copyBtn.textContent = '📋 Copy to Clipboard';
                 copyBtn.className = 'action-btn';
 
-                // Refresh history
                 loadHistory();
             } catch (error) {
                 excuseText.className = 'excuse-placeholder';
@@ -361,6 +629,7 @@
             }
         }
 
+        // --- Copy excuse ---
         async function copyExcuse() {
             if (!currentExcuse) return;
 
@@ -374,7 +643,6 @@
                     copyBtn.className = 'action-btn';
                 }, 2000);
             } catch (error) {
-                // Fallback for older browsers
                 const textArea = document.createElement('textarea');
                 textArea.value = currentExcuse.text;
                 document.body.appendChild(textArea);
@@ -388,9 +656,54 @@
             }
         }
 
+        // --- Vote on excuse ---
+        async function voteExcuse(excuseId, direction) {
+            try {
+                const response = await fetch(`${API_BASE}/excuses/${excuseId}/vote`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ direction })
+                });
+                if (!response.ok) throw new Error('Vote failed');
+                loadHistory();
+            } catch (error) {
+                console.error('Error voting:', error);
+            }
+        }
+
+        // --- Delete excuse ---
+        async function deleteExcuse(excuseId) {
+            if (!confirm('Delete this excuse?')) return;
+            try {
+                const response = await fetch(`${API_BASE}/excuses/${excuseId}`, {
+                    method: 'DELETE'
+                });
+                if (!response.ok) {
+                    const error = await response.json();
+                    throw new Error(error.detail || 'Failed to delete');
+                }
+                loadHistory();
+            } catch (error) {
+                alert('Error: ' + error.message);
+                console.error('Error:', error);
+            }
+        }
+
+        // --- Load history with filters ---
         async function loadHistory() {
             try {
-                const response = await fetch(`${API_BASE}/excuses?limit=5`);
+                const labFilter = document.getElementById('historyLabFilter').value;
+                const sortVal = document.getElementById('historySort').value;
+                const [sortBy, order] = sortVal.split('-');
+                const searchQ = document.getElementById('historySearch').value.trim();
+
+                let url = `${API_BASE}/excuses?limit=20`;
+                if (labFilter) url += `&lab_number=${labFilter}`;
+                if (sortBy) url += `&sort_by=${sortBy}`;
+                if (order) url += `&order=${order}`;
+                if (searchQ) url += `&q=${encodeURIComponent(searchQ)}`;
+
+                const response = await fetch(url);
                 if (!response.ok) return;
 
                 const excuses = await response.json();
@@ -398,7 +711,7 @@
                 historyList.innerHTML = '';
 
                 if (excuses.length === 0) {
-                    historyList.innerHTML = '<p style="color: #5a6a8a; text-align: center;">No excuses generated yet</p>';
+                    historyList.innerHTML = '<p style="color: #5a6a8a; text-align: center;">No excuses found</p>';
                     return;
                 }
 
@@ -407,11 +720,18 @@
                     item.className = 'history-item';
                     const date = new Date(excuse.created_at).toLocaleString();
                     const lab = excuse.lab_number ? `Lab ${excuse.lab_number}` : 'General';
+                    const repoNote = excuse.repo_id ? ' • 📦 from repo' : '';
+                    const upClass = excuse.user_vote === 'up' ? 'vote-btn active-up' : 'vote-btn';
+                    const downClass = excuse.user_vote === 'down' ? 'vote-btn active-down' : 'vote-btn';
                     item.innerHTML = `
                         <div>${excuse.text}</div>
                         <div class="history-meta">
-                            <span>${date} • ${lab}</span>
-                            <span>👍 ${excuse.upvotes} 👎 ${excuse.downvotes}</span>
+                            <span>${date} • ${lab}${repoNote}</span>
+                            <span>
+                                <button class="${upClass}" onclick="voteExcuse(${excuse.id}, 'up')">👍 ${excuse.upvotes}</button>
+                                <button class="${downClass}" onclick="voteExcuse(${excuse.id}, 'down')">👎 ${excuse.downvotes}</button>
+                                <button class="delete-btn" onclick="deleteExcuse(${excuse.id})">🗑 Delete</button>
+                            </span>
                         </div>
                     `;
                     historyList.appendChild(item);
@@ -421,9 +741,155 @@
             }
         }
 
-        // Load history and lab info on page load
+        // --- Saved Repository Functions ---
+        async function loadRepos() {
+            try {
+                const response = await fetch(`${API_BASE}/repos`);
+                if (!response.ok) return;
+
+                const repos = await response.json();
+                const repoList = document.getElementById('repoList');
+                repoList.innerHTML = '';
+
+                if (repos.length === 0) {
+                    repoList.innerHTML = '<p style="color: #5a6a8a; text-align: center; padding: 1rem;">No repositories linked yet. Add a GitHub repo above.</p>';
+                    return;
+                }
+
+                repos.forEach(repo => {
+                    const item = document.createElement('div');
+                    item.className = 'repo-item';
+                    const lab = repo.lab_number ? `Lab ${repo.lab_number}` : 'No lab';
+                    const techs = repo.technologies && repo.technologies.length > 0
+                        ? repo.technologies.slice(0, 4).join(', ')
+                        : 'no tech detected';
+                    item.innerHTML = `
+                        <div class="repo-info">
+                            <div class="repo-name-text">${repo.repo_name}</div>
+                            <div class="repo-meta">${lab} • ${techs}</div>
+                        </div>
+                        <div class="repo-actions">
+                            <button class="repo-gen-btn" onclick="generateExcuseFromRepo(${repo.id})">⚡ Generate</button>
+                            <button class="repo-remove-btn" onclick="removeRepo(${repo.id})">✕ Remove</button>
+                        </div>
+                    `;
+                    repoList.appendChild(item);
+                });
+            } catch (error) {
+                console.error('Error loading repos:', error);
+            }
+        }
+
+        async function addRepo() {
+            const input = document.getElementById('repoUrlInput');
+            const labSelect = document.getElementById('repoLabSelect');
+            const btn = document.getElementById('addRepoBtn');
+            const url = input.value.trim();
+
+            if (!url) {
+                alert('Please enter a GitHub URL');
+                return;
+            }
+
+            btn.disabled = true;
+            btn.textContent = 'Adding...';
+
+            try {
+                const body = { github_url: url };
+                if (labSelect.value) {
+                    body.lab_number = parseInt(labSelect.value);
+                }
+
+                const response = await fetch(`${API_BASE}/repos`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(body)
+                });
+
+                if (!response.ok) {
+                    const error = await response.json();
+                    throw new Error(error.detail || 'Failed to add repo');
+                }
+
+                const data = await response.json();
+                input.value = '';
+                labSelect.value = '';
+                await loadRepos();
+            } catch (error) {
+                alert('Error: ' + error.message);
+                console.error('Error:', error);
+            } finally {
+                btn.disabled = false;
+                btn.textContent = '+ Add Repo';
+            }
+        }
+
+        async function removeRepo(repoId) {
+            if (!confirm('Remove this repository?')) return;
+
+            try {
+                const response = await fetch(`${API_BASE}/repos/${repoId}`, {
+                    method: 'DELETE'
+                });
+
+                if (!response.ok) {
+                    const error = await response.json();
+                    throw new Error(error.detail || 'Failed to remove repo');
+                }
+
+                await loadRepos();
+            } catch (error) {
+                alert('Error: ' + error.message);
+                console.error('Error:', error);
+            }
+        }
+
+        async function generateExcuseFromRepo(repoId) {
+            const btn = document.getElementById('generateBtn');
+            const excuseText = document.getElementById('excuseText');
+            const excuseActions = document.getElementById('excuseActions');
+
+            btn.disabled = true;
+            btn.innerHTML = '<span class="loading"></span> Generating...';
+            excuseText.className = 'excuse-placeholder';
+            excuseText.textContent = 'Generating excuse from repository...';
+            excuseActions.style.display = 'none';
+
+            try {
+                const response = await fetch(`${API_BASE}/excuses`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ repo_id: repoId })
+                });
+
+                if (!response.ok) throw new Error('Failed to generate excuse');
+
+                const data = await response.json();
+                currentExcuse = data;
+
+                excuseText.className = 'excuse-text fade-in';
+                excuseText.textContent = data.text;
+                excuseActions.style.display = 'flex';
+
+                const copyBtn = document.getElementById('copyBtn');
+                copyBtn.textContent = '📋 Copy to Clipboard';
+                copyBtn.className = 'action-btn';
+
+                loadHistory();
+            } catch (error) {
+                excuseText.className = 'excuse-placeholder';
+                excuseText.textContent = 'Error generating excuse. Please try again.';
+                console.error('Error:', error);
+            } finally {
+                btn.disabled = false;
+                btn.innerHTML = '⚡ Generate Excuse';
+            }
+        }
+
+        // Initialize on page load
         loadHistory();
         loadLabInfo();
+        loadRepos();
     </script>
 </body>
 </html>

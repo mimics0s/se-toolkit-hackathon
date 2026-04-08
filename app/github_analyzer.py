@@ -97,6 +97,11 @@ def _analyze_repo_tech(repo: dict) -> dict:
         elif lab_num == 8:
             tech_keywords["agent"] = True
             tech_keywords["ai"] = True
+        elif lab_num == 9:
+            tech_keywords["agent"] = True
+            tech_keywords["ai"] = True
+            tech_keywords["workflow"] = True
+            tech_keywords["evaluation"] = True
 
     return {
         "lab_number": lab_num,
