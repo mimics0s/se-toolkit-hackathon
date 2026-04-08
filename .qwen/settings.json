@@ -25,7 +25,8 @@
       "Bash(timeout *)",
       "Bash(cat *)",
       "Bash(fuser *)",
-      "Bash(.venv/bin/pip *)"
+      "Bash(.venv/bin/pip *)",
+      "Bash(git push)"
     ]
   },
   "$version": 3

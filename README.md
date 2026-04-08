@@ -78,11 +78,6 @@ Everything from Version 1, plus:
 | History | Timestamped, filterable, searchable |
 | REST API | 10 endpoints, fully documented |
 
-### Not yet implemented
-
-- [ ] Excuse sharing/export as image
-- [ ] OAuth-based user identification for voting
-
 ## Usage
 
 1. Open the app in your browser (`http://localhost:8000` or your VM IP)
